@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Dashboard</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; min-height: 100vh; padding: 24px 16px; }
+
+h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #555; margin-bottom: 28px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+.category { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 18px; }
+.cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #1e1e1e; }
+.cat-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.cat-title { font-size: 14px; font-weight: 500; color: #fff; }
+.cat-desc { font-size: 11px; color: #555; margin-top: 2px; }
+
+.link-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-bottom: 6px; border: 1px solid transparent; text-decoration: none; }
+.link-item:last-child { margin-bottom: 0; }
+.link-item:hover { background: #1a1a1a; border-color: #2a2a2a; }
+.link-left { display: flex; flex-direction: column; gap: 2px; }
+.link-name { font-size: 13px; font-weight: 500; color: #e0e0e0; }
+.link-desc { font-size: 11px; color: #555; }
+.link-badge { font-size: 10px; padding: 2px 7px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+.badge-free { background: #0d2a1a; color: #4caf7d; }
+.badge-pro  { background: #1a2a3a; color: #60aaee; }
+.badge-must { background: #2a1a0a; color: #e0a030; }
+
+.ic-crypto  { background: #1a2a1a; }
+.ic-macro   { background: #1a1a2a; }
+.ic-china   { background: #2a1a1a; }
+.ic-commod  { background: #2a2a1a; }
+.ic-mining  { background: #1a2a2a; }
+.ic-cal     { background: #2a1a2a; }
+
+.search-bar { display: flex; gap: 10px; margin-bottom: 24px; }
+.search-bar input { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; color: #e0e0e0; font-size: 14px; padding: 10px 14px; outline: none; }
+.search-bar input:focus { border-color: #444; }
+.search-bar input::placeholder { color: #444; }
+
+.tag-filters { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.tag { padding: 5px 12px; font-size: 12px; border-radius: 6px; border: 1px solid #2a2a2a; cursor: pointer; color: #666; background: transparent; transition: all 0.15s; }
+.tag:hover { border-color: #444; color: #ccc; }
+.tag.active { background: #1a3a5c; color: #60aaee; border-color: #1a3a5c; }
+
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<h1>Trading Dashboard</h1>
+<p class="subtitle">Naujienos · Makro · Crypto · Žaliavos · Kinija</p>
+
+<div class="search-bar">
+  <input type="text" id="search" placeholder="Ieškoti puslapio..." oninput="filterLinks()">
+</div>
+
+<div class="tag-filters">
+  <button class="tag active" onclick="filterTag('all', this)">Visi</button>
+  <button class="tag" onclick="filterTag('crypto', this)">Crypto</button>
+  <button class="tag" onclick="filterTag('macro', this)">Makro</button>
+  <button class="tag" onclick="filterTag('china', this)">Kinija</button>
+  <button class="tag" onclick="filterTag('commodities', this)">Žaliavos</button>
+  <button class="tag" onclick="filterTag('mining', this)">Kasyklos</button>
+  <button class="tag" onclick="filterTag('calendar', this)">Kalendorius</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- CRYPTO NAUJIENOS -->
+  <div class="category" data-tags="crypto">
+    <div class="cat-header">
+      <div class="cat-icon ic-crypto">₿</div>
+      <div><div class="cat-title">Crypto naujienos</div><div class="cat-desc">Rinkos, projektai, reguliavimas</div></div>
+    </div>
+    <a class="link-item" href="https://www.coindesk.com" target="_blank">
+      <div class="link-left"><span class="link-name">CoinDesk</span><span class="link-desc">Rimčiausias crypto žurnalizmas</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.theblock.co" target="_blank">
+      <div class="link-left"><span class="link-name">The Block</span><span class="link-desc">Institucinis požiūris, on-chain</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://cryptopanic.com" target="_blank">
+      <div class="link-left"><span class="link-name">CryptoPanic</span><span class="link-desc">Visos naujienos realiu laiku</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://cointelegraph.com" target="_blank">
+      <div class="link-left"><span class="link-name">CoinTelegraph</span><span class="link-desc">Populiariausias crypto portalas</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://decrypt.co" target="_blank">
+      <div class="link-left"><span class="link-name">Decrypt</span><span class="link-desc">Web3, NFT, DeFi naujienos</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- ON-CHAIN -->
+  <div class="category" data-tags="crypto">
+    <div class="cat-header">
+      <div class="cat-icon ic-crypto">⛓</div>
+      <div><div class="cat-title">On-chain analizė</div><div class="cat-desc">Whale moves, likvidacijos, flow</div></div>
+    </div>
+    <a class="link-item" href="https://coinglass.com" target="_blank">
+      <div class="link-left"><span class="link-name">CoinGlass</span><span class="link-desc">Likvidacijos, funding rates, OI</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://glassnode.com" target="_blank">
+      <div class="link-left"><span class="link-name">Glassnode</span><span class="link-desc">On-chain metrikų lyderis</span></div>
+      <span class="link-badge badge-free">Iš dalies</span>
+    </a>
+    <a class="link-item" href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank">
+      <div class="link-left"><span class="link-name">Fear & Greed Index</span><span class="link-desc">Rinkos sentiment indeksas</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.coingecko.com" target="_blank">
+      <div class="link-left"><span class="link-name">CoinGecko</span><span class="link-desc">Kainų duomenys, rinkos cap</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- MAKRO EKONOMIKA -->
+  <div class="category" data-tags="macro">
+    <div class="cat-header">
+      <div class="cat-icon ic-macro">📊</div>
+      <div><div class="cat-title">Makro ekonomika</div><div class="cat-desc">FED, infliacija, palūkanos</div></div>
+    </div>
+    <a class="link-item" href="https://tradingeconomics.com" target="_blank">
+      <div class="link-left"><span class="link-name">Trading Economics</span><span class="link-desc">Visi makro duomenys vienoje vietoje</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.federalreserve.gov" target="_blank">
+      <div class="link-left"><span class="link-name">Federal Reserve</span><span class="link-desc">FED sprendimai, palūkanų normos</span></div>
+      <span class="link-badge badge-free">Oficialus</span>
+    </a>
+    <a class="link-item" href="https://www.bls.gov" target="_blank">
+      <div class="link-left"><span class="link-name">BLS.gov</span><span class="link-desc">CPI infliacija, darbo rinkos duomenys</span></div>
+      <span class="link-badge badge-free">Oficialus</span>
+    </a>
+    <a class="link-item" href="https://www.marketwatch.com" target="_blank">
+      <div class="link-left"><span class="link-name">MarketWatch</span><span class="link-desc">Rinkų naujienos ir analizė</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.zerohedge.com" target="_blank">
+      <div class="link-left"><span class="link-name">ZeroHedge</span><span class="link-desc">Alternatyvi makro analizė</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- KINIJA / HANG SENG -->
+  <div class="category" data-tags="china">
+    <div class="cat-header">
+      <div class="cat-icon ic-china">🇨🇳</div>
+      <div><div class="cat-title">Kinija & Hang Seng</div><div class="cat-desc">Azijos rinkos, HSI indeksas</div></div>
+    </div>
+    <a class="link-item" href="https://www.scmp.com/business" target="_blank">
+      <div class="link-left"><span class="link-name">South China Morning Post</span><span class="link-desc">Geriausias Azijos verslo leidinys</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.hkex.com.hk" target="_blank">
+      <div class="link-left"><span class="link-name">HKEX</span><span class="link-desc">Honkongo biržos oficialus puslapis</span></div>
+      <span class="link-badge badge-free">Oficialus</span>
+    </a>
+    <a class="link-item" href="https://tradingeconomics.com/china/indicators" target="_blank">
+      <div class="link-left"><span class="link-name">China Indicators</span><span class="link-desc">Kinijos makro duomenys</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.caixin.com/english" target="_blank">
+      <div class="link-left"><span class="link-name">Caixin</span><span class="link-desc">Kinijos finansų žiniasklaida</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://finance.yahoo.com/quote/%5EHSI/" target="_blank">
+      <div class="link-left"><span class="link-name">Hang Seng Index</span><span class="link-desc">HSI realiu laiku Yahoo Finance</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- ŽALIAVOS -->
+  <div class="category" data-tags="commodities">
+    <div class="cat-header">
+      <div class="cat-icon ic-commod">🛢</div>
+      <div><div class="cat-title">Žaliavos</div><div class="cat-desc">Auksas, sidabras, nafta, grūdai</div></div>
+    </div>
+    <a class="link-item" href="https://www.kitco.com" target="_blank">
+      <div class="link-left"><span class="link-name">Kitco</span><span class="link-desc">Auksas, sidabras – realiu laiku</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.investing.com/commodities" target="_blank">
+      <div class="link-left"><span class="link-name">Investing.com – Commodities</span><span class="link-desc">Visos žaliavos vienoje vietoje</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://oilprice.com" target="_blank">
+      <div class="link-left"><span class="link-name">OilPrice.com</span><span class="link-desc">Naftos rinkos naujienos ir analizė</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.cmegroup.com" target="_blank">
+      <div class="link-left"><span class="link-name">CME Group</span><span class="link-desc">Futures – auksas, nafta, grūdai</span></div>
+      <span class="link-badge badge-free">Oficialus</span>
+    </a>
+    <a class="link-item" href="https://www.gold.org" target="_blank">
+      <div class="link-left"><span class="link-name">World Gold Council</span><span class="link-desc">Aukso rinkos analizė ir duomenys</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- KASYKLOS -->
+  <div class="category" data-tags="mining">
+    <div class="cat-header">
+      <div class="cat-icon ic-mining">⛏</div>
+      <div><div class="cat-title">Aukso & sidabro kasyklos</div><div class="cat-desc">Mining akcijos, ETF, analizė</div></div>
+    </div>
+    <a class="link-item" href="https://www.mining.com" target="_blank">
+      <div class="link-left"><span class="link-name">Mining.com</span><span class="link-desc">Kasyklų industrijos naujienos</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.miningweekly.com" target="_blank">
+      <div class="link-left"><span class="link-name">Mining Weekly</span><span class="link-desc">Savaitinė kasyklų pramonės apžvalga</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://stockanalysis.com/etf/gdx/" target="_blank">
+      <div class="link-left"><span class="link-name">GDX ETF</span><span class="link-desc">Aukso kasyklų ETF – didžiausias</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://stockanalysis.com/etf/gdxj/" target="_blank">
+      <div class="link-left"><span class="link-name">GDXJ ETF</span><span class="link-desc">Junior gold miners ETF</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.silverdoctors.com" target="_blank">
+      <div class="link-left"><span class="link-name">Silver Doctors</span><span class="link-desc">Sidabro rinkos naujienos</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- EKONOMINIS KALENDORIUS -->
+  <div class="category" data-tags="calendar">
+    <div class="cat-header">
+      <div class="cat-icon ic-cal">📅</div>
+      <div><div class="cat-title">Ekonominis kalendorius</div><div class="cat-desc">Svarbūs įvykiai ir datos</div></div>
+    </div>
+    <a class="link-item" href="https://www.investing.com/economic-calendar/" target="_blank">
+      <div class="link-left"><span class="link-name">Investing.com kalendorius</span><span class="link-desc">Geriausias – visi įvykiai su filtru</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://finance.yahoo.com/calendar/earnings" target="_blank">
+      <div class="link-left"><span class="link-name">Yahoo Finance Earnings</span><span class="link-desc">Kompanijų finansiniai rezultatai</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" target="_blank">
+      <div class="link-left"><span class="link-name">FOMC Calendar</span><span class="link-desc">FED posėdžių datos – būtina žinoti</span></div>
+      <span class="link-badge badge-free">Oficialus</span>
+    </a>
+    <a class="link-item" href="https://tradingeconomics.com/calendar" target="_blank">
+      <div class="link-left"><span class="link-name">Trading Economics kalendorius</span><span class="link-desc">Pasaulio makro įvykiai</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+  </div>
+
+  <!-- YOUTUBE / ANALITIKAI -->
+  <div class="category" data-tags="macro crypto">
+    <div class="cat-header">
+      <div class="cat-icon ic-macro">▶</div>
+      <div><div class="cat-title">YouTube analitikai</div><div class="cat-desc">Makro + crypto video analizė</div></div>
+    </div>
+    <a class="link-item" href="https://www.youtube.com/@LynAldenStrategyVideo" target="_blank">
+      <div class="link-left"><span class="link-name">Lyn Alden</span><span class="link-desc">Geriausias makro + crypto analitikas</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.youtube.com/@intothecryptoverse" target="_blank">
+      <div class="link-left"><span class="link-name">Benjamin Cowen</span><span class="link-desc">Techninis + makro crypto analizė</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.youtube.com/@GameofTrades" target="_blank">
+      <div class="link-left"><span class="link-name">Game of Trades</span><span class="link-desc">Makro rinkų analizė</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
+    </a>
+    <a class="link-item" href="https://www.youtube.com/@RealVision" target="_blank">
+      <div class="link-left"><span class="link-name">Real Vision</span><span class="link-desc">Institucinio lygio makro interviu</span></div>
+      <span class="link-badge badge-free">Iš dalies</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+let activeTag = 'all';
+
+function filterTag(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  filterLinks();
+}
+
+function filterLinks() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.category').forEach(cat => {
+    const tags = cat.dataset.tags || '';
+    const tagMatch = activeTag === 'all' || tags.includes(activeTag);
+    const text = cat.innerText.toLowerCase();
+    const textMatch = !q || text.includes(q);
+    cat.style.display = (tagMatch && textMatch) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
