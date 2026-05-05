@@ -36,6 +36,7 @@ h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
 .ic-commod  { background: #2a2a1a; }
 .ic-mining  { background: #1a2a2a; }
 .ic-cal     { background: #2a1a2a; }
+.ic-capitol { background: #1e1a2e; }
 
 .search-bar { display: flex; gap: 10px; margin-bottom: 24px; }
 .search-bar input { flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; color: #e0e0e0; font-size: 14px; padding: 10px 14px; outline: none; }
@@ -53,7 +54,7 @@ h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
 <body>
 
 <h1>Trading Dashboard</h1>
-<p class="subtitle">Naujienos · Makro · Crypto · Žaliavos · Kinija</p>
+<p class="subtitle">Naujienos · Makro · Crypto · Žaliavos · Kinija · Politika</p>
 
 <div class="search-bar">
   <input type="text" id="search" placeholder="Ieškoti puslapio..." oninput="filterLinks()">
@@ -67,6 +68,7 @@ h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
   <button class="tag" onclick="filterTag('commodities', this)">Žaliavos</button>
   <button class="tag" onclick="filterTag('mining', this)">Kasyklos</button>
   <button class="tag" onclick="filterTag('calendar', this)">Kalendorius</button>
+  <button class="tag" onclick="filterTag('capitol', this)">Politikų sandoriai</button>
 </div>
 
 <div class="grid" id="grid">
@@ -213,10 +215,6 @@ h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
       <div class="cat-icon ic-mining">⛏</div>
       <div><div class="cat-title">Aukso & sidabro kasyklos</div><div class="cat-desc">Mining akcijos, ETF, analizė</div></div>
     </div>
-    <a class="link-item" href="https://www.mining.com" target="_blank">
-      <div class="link-left"><span class="link-name">Mining.com</span><span class="link-desc">Kasyklų industrijos naujienos</span></div>
-      <span class="link-badge badge-must">Būtina</span>
-    </a>
     <a class="link-item" href="https://www.miningweekly.com" target="_blank">
       <div class="link-left"><span class="link-name">Mining Weekly</span><span class="link-desc">Savaitinė kasyklų pramonės apžvalga</span></div>
       <span class="link-badge badge-free">Nemokama</span>
@@ -265,21 +263,33 @@ h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; }
       <div class="cat-icon ic-macro">▶</div>
       <div><div class="cat-title">YouTube analitikai</div><div class="cat-desc">Makro + crypto video analizė</div></div>
     </div>
-    <a class="link-item" href="https://www.youtube.com/@LynAldenStrategyVideo" target="_blank">
+    <a class="link-item" href="https://www.youtube.com/@LynAldenMedia" target="_blank">
       <div class="link-left"><span class="link-name">Lyn Alden</span><span class="link-desc">Geriausias makro + crypto analitikas</span></div>
       <span class="link-badge badge-must">Būtina</span>
     </a>
-    <a class="link-item" href="https://www.youtube.com/@intothecryptoverse" target="_blank">
-      <div class="link-left"><span class="link-name">Benjamin Cowen</span><span class="link-desc">Techninis + makro crypto analizė</span></div>
+  </div>
+
+  <!-- POLITIKŲ SANDORIAI -->
+  <div class="category" data-tags="capitol">
+    <div class="cat-header">
+      <div class="cat-icon ic-capitol">🏛</div>
+      <div><div class="cat-title">Politikų sandoriai</div><div class="cat-desc">JAV Kongreso narių akcijų pirkimai</div></div>
+    </div>
+    <a class="link-item" href="https://www.capitoltrades.com/" target="_blank">
+      <div class="link-left"><span class="link-name">Capitol Trades</span><span class="link-desc">Senatorių ir kongresmenų sandoriai realiu laiku</span></div>
+      <span class="link-badge badge-must">Būtina</span>
+    </a>
+    <a class="link-item" href="https://www.capitoltrades.com/politicians" target="_blank">
+      <div class="link-left"><span class="link-name">Politikų sąrašas</span><span class="link-desc">Filtruok pagal partiją, komitetą, aktyvumą</span></div>
       <span class="link-badge badge-free">Nemokama</span>
     </a>
-    <a class="link-item" href="https://www.youtube.com/@GameofTrades" target="_blank">
-      <div class="link-left"><span class="link-name">Game of Trades</span><span class="link-desc">Makro rinkų analizė</span></div>
+    <a class="link-item" href="https://www.capitoltrades.com/trades" target="_blank">
+      <div class="link-left"><span class="link-name">Naujausios operacijos</span><span class="link-desc">Paskutiniai visi sandoriai chronologiškai</span></div>
       <span class="link-badge badge-free">Nemokama</span>
     </a>
-    <a class="link-item" href="https://www.youtube.com/@RealVision" target="_blank">
-      <div class="link-left"><span class="link-name">Real Vision</span><span class="link-desc">Institucinio lygio makro interviu</span></div>
-      <span class="link-badge badge-free">Iš dalies</span>
+    <a class="link-item" href="https://www.capitoltrades.com/issuers" target="_blank">
+      <div class="link-left"><span class="link-name">Akcijos pagal emitentą</span><span class="link-desc">Kurias akcijas perka politikai dažniausiai</span></div>
+      <span class="link-badge badge-free">Nemokama</span>
     </a>
   </div>
 
