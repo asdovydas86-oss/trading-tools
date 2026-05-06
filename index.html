@@ -6,7 +6,7 @@
 <title>Rizikos Kalkuliatorius</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; min-height: 100vh; padding: 24px 16px; }
+body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif; background: #0f0f0f; color: #e0e0e0; min-height: 100vh; padding: 24px 16px; }
 h1 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 4px; }
 .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
 .tabs { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
@@ -20,9 +20,9 @@ h1 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 4px; }
 .input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .input-label { font-size: 13px; color: #888; width: 170px; flex-shrink: 0; }
 .input-wrap { display: flex; align-items: center; gap: 8px; flex: 1; }
-input[type="number"] { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; color: #e0e0e0; font-size: 14px; outline: none; padding: 9px 12px; width: 100%; transition: border 0.15s; }
-input[type="number"]:focus { border-color: #444; }
-input[type="range"] { flex: 1; accent-color: #60aaee; }
+input[type=number] { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; color: #e0e0e0; font-size: 14px; outline: none; padding: 9px 12px; width: 100%; transition: border 0.15s; }
+input[type=number]:focus { border-color: #444; }
+input[type=range] { flex: 1; accent-color: #60aaee; }
 .unit { font-size: 13px; color: #555; white-space: nowrap; min-width: 28px; }
 .toggle-row { display: flex; gap: 8px; margin-bottom: 14px; }
 .toggle-btn { flex: 1; padding: 9px; font-size: 13px; border-radius: 8px; border: 1px solid #2a2a2a; cursor: pointer; background: transparent; color: #666; transition: all 0.15s; }
@@ -33,11 +33,11 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 .big-val { font-size: 36px; font-weight: 500; }
 .big-val.good { color: #4caf7d; }
 .big-val.warn { color: #e0a030; }
-.big-val.bad  { color: #e05555; }
+.big-val.bad { color: #e05555; }
 .big-sub { font-size: 13px; color: #555; margin-top: 6px; }
 .risk-meter { margin: 14px 0 8px; }
 .rm-labels { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 6px; }
-.rm-bg { height: 10px; border-radius: 5px; background: #1e1e1e; overflow: hidden; position: relative; }
+.rm-bg { height: 10px; border-radius: 5px; background: #1e1e1e; overflow: hidden; }
 .rm-fill { height: 100%; border-radius: 5px; transition: width 0.25s, background 0.25s; }
 .rm-ticks { display: flex; justify-content: space-between; font-size: 11px; color: #444; margin-top: 4px; }
 .result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
@@ -45,21 +45,19 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 .result-label { font-size: 11px; color: #555; margin-bottom: 6px; }
 .result-val { font-size: 20px; font-weight: 500; color: #e0e0e0; }
 .result-val.good { color: #4caf7d; }
-.result-val.bad  { color: #e05555; }
+.result-val.bad { color: #e05555; }
 .result-val.warn { color: #e0a030; }
 .rr-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 12px 0 4px; }
 .rr-loss { background: #c0392b; }
 .rr-profit { background: #27ae60; }
 .rr-labels { display: flex; justify-content: space-between; font-size: 11px; color: #555; }
 .verdict { border-radius: 10px; padding: 14px 16px; font-size: 13px; line-height: 1.6; margin-top: 14px; }
-.verdict.ok   { background: #0d2a1a; color: #4caf7d; border: 1px solid #1a4a2a; }
+.verdict.ok { background: #0d2a1a; color: #4caf7d; border: 1px solid #1a4a2a; }
 .verdict.warn { background: #2a1f0a; color: #e0a030; border: 1px solid #4a3510; }
-.verdict.bad  { background: #2a0d0d; color: #e05555; border: 1px solid #4a1a1a; }
+.verdict.bad { background: #2a0d0d; color: #e05555; border: 1px solid #4a1a1a; }
 .streak-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1e1e1e; font-size: 13px; }
 .streak-row:last-child { border-bottom: none; }
-
-/* LEVERAGE */
-.leverage-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+.leverage-bar { display: flex; gap: 8px; margin-bottom: 12px; }
 .lev-btn { flex: 1; padding: 10px 6px; font-size: 14px; font-weight: 600; border-radius: 10px; border: 1px solid #2a2a2a; cursor: pointer; background: #1a1a1a; color: #666; transition: all 0.15s; text-align: center; }
 .lev-btn:hover { border-color: #444; color: #ccc; }
 .lev-btn.active { background: #1a2a3a; color: #60aaee; border-color: #2a4a6a; }
@@ -67,114 +65,69 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 .lev-btn.active.lev-danger { background: #2a0d0d; color: #e05555; border-color: #4a1a1a; }
 .lev-info { font-size: 12px; color: #555; margin-bottom: 16px; padding: 10px 14px; background: #111; border-radius: 8px; border: 1px solid #1e1e1e; }
 .lev-info span { color: #e0a030; font-weight: 600; }
-
 @media (max-width: 480px) { .input-label { width: 120px; font-size: 12px; } .big-val { font-size: 28px; } }
 </style>
 </head>
 <body>
-
 <h1>Rizikos kalkuliatorius</h1>
 <p class="subtitle">Swing trading · xStation · Krypto · Forex</p>
-
 <div class="tabs">
   <button class="tab active" onclick="setTab('main')">Pirkimo rizika</button>
   <button class="tab" onclick="setTab('rr')">Win rate sim</button>
   <button class="tab" onclick="setTab('streak')">Nuostolių serija</button>
 </div>
-
-<!-- MAIN -->
 <div class="panel active" id="panel-main">
-
-  <!-- LEVERAGE -->
   <div class="section">
-    <div class="section-title">svertas (leverage)</div>
+    <div class="section-title">⚡ Svertas (Leverage)</div>
     <div class="leverage-bar">
       <button class="lev-btn active" id="lev-1" onclick="setLev(1)">1x<br><small style="font-size:10px;font-weight:400;">be sverto</small></button>
       <button class="lev-btn" id="lev-2" onclick="setLev(2)">2x<br><small style="font-size:10px;font-weight:400;">dvigubas</small></button>
       <button class="lev-btn" id="lev-5" onclick="setLev(5)">5x<br><small style="font-size:10px;font-weight:400;">didelis</small></button>
       <button class="lev-btn" id="lev-10" onclick="setLev(10)">10x<br><small style="font-size:10px;font-weight:400;">labai didelis</small></button>
     </div>
-    <div class="lev-info" id="lev-info">
-      1x — be sverto. Rizika <span id="lev-risk-show">2.0%</span> portfelio.
-    </div>
+    <div class="lev-info" id="lev-info">1x — be sverto. Rizika <span>2.0%</span> portfelio.</div>
   </div>
-
   <div class="section">
     <div class="section-title">mano portfelis</div>
-    <div class="input-row">
-      <span class="input-label">Visas portfelio dydis</span>
-      <div class="input-wrap"><input type="number" id="portfolio" value="1000" min="1" oninput="calcMain()"><span class="unit">€</span></div>
-    </div>
-    <div class="input-row">
-      <span class="input-label">Maks. rizika per tradą</span>
-      <div class="input-wrap"><input type="range" id="risk-pct" min="0.5" max="5" step="0.5" value="2" oninput="calcMain()"><span class="unit" id="risk-pct-out" style="min-width:32px;">2%</span></div>
-    </div>
+    <div class="input-row"><span class="input-label">Visas portfelio dydis</span><div class="input-wrap"><input type="number" id="portfolio" value="1000" min="1" oninput="calcMain()"><span class="unit">€</span></div></div>
+    <div class="input-row"><span class="input-label">Maks. rizika per tradą</span><div class="input-wrap"><input type="range" id="risk-pct" min="0.5" max="5" step="0.5" value="2" oninput="calcMain()"><span class="unit" id="risk-pct-out" style="min-width:32px;">2%</span></div></div>
   </div>
-
   <div class="section">
     <div class="section-title">kainos</div>
-    <div class="input-row">
-      <span class="input-label">Pirkimo kaina</span>
-      <div class="input-wrap"><input type="number" id="entry" value="100" step="any" oninput="calcMain()"><span class="unit">$</span></div>
-    </div>
-    <div class="input-row">
-      <span class="input-label">Stop loss kaina</span>
-      <div class="input-wrap"><input type="number" id="sl" value="95" step="any" oninput="calcMain()"><span class="unit">$</span></div>
-    </div>
-    <div class="input-row">
-      <span class="input-label">Take profit kaina</span>
-      <div class="input-wrap"><input type="number" id="tp" value="110" step="any" oninput="calcMain()"><span class="unit">$</span></div>
-    </div>
+    <div class="input-row"><span class="input-label">Pirkimo kaina</span><div class="input-wrap"><input type="number" id="entry" value="100" step="any" oninput="calcMain()"><span class="unit">$</span></div></div>
+    <div class="input-row"><span class="input-label">Stop loss kaina</span><div class="input-wrap"><input type="number" id="sl" value="95" step="any" oninput="calcMain()"><span class="unit">$</span></div></div>
+    <div class="input-row"><span class="input-label">Take profit kaina</span><div class="input-wrap"><input type="number" id="tp" value="110" step="any" oninput="calcMain()"><span class="unit">$</span></div></div>
   </div>
-
   <div class="section">
     <div class="section-title">kiek investuoju</div>
     <div class="toggle-row">
       <button class="toggle-btn active" id="btn-eur" onclick="setMode('eur')">Suma (€/$)</button>
       <button class="toggle-btn" id="btn-units" onclick="setMode('units')">Vienetai (vnt.)</button>
     </div>
-    <div id="input-eur">
-      <div class="input-row">
-        <span class="input-label">Investuoju sumą</span>
-        <div class="input-wrap"><input type="number" id="invest-eur" value="400" min="0" step="any" oninput="calcMain()"><span class="unit">€</span></div>
-      </div>
-    </div>
-    <div id="input-units" style="display:none;">
-      <div class="input-row">
-        <span class="input-label">Perku vienetų</span>
-        <div class="input-wrap"><input type="number" id="invest-units" value="4" min="0" step="any" oninput="calcMain()"><span class="unit">vnt.</span></div>
-      </div>
-    </div>
+    <div id="input-eur"><div class="input-row"><span class="input-label">Investuoju sumą</span><div class="input-wrap"><input type="number" id="invest-eur" value="400" min="0" step="any" oninput="calcMain()"><span class="unit">€</span></div></div></div>
+    <div id="input-units" style="display:none;"><div class="input-row"><span class="input-label">Perku vienetuų</span><div class="input-wrap"><input type="number" id="invest-units" value="4" min="0" step="any" oninput="calcMain()"><span class="unit">vnt.</span></div></div></div>
   </div>
-
   <hr>
-
   <div class="big-result">
     <div class="big-label">mano rizika šiame trade</div>
     <div class="big-val" id="big-risk">€20.00</div>
     <div class="big-sub" id="big-sub">2.00% portfelio · 4.0000 vnt. · €400.00 pozicija</div>
   </div>
-
   <div class="risk-meter">
     <div class="rm-labels"><span>Rizikos lygis</span><span id="rm-pct-label">2.00% portfelio</span></div>
     <div class="rm-bg"><div class="rm-fill" id="rm-fill" style="width:40%;background:#4caf7d;"></div></div>
     <div class="rm-ticks"><span>0%</span><span style="color:#e0a030;">2% riba</span><span style="color:#e05555;">5%</span></div>
   </div>
-
   <div class="result-grid">
     <div class="result-card"><div class="result-label">Pozicijos dydis</div><div class="result-val" id="r-pos">€400.00</div></div>
-    <div class="result-card"><div class="result-label">Vienetų kiekis</div><div class="result-val" id="r-units">4.0000</div></div>
+    <div class="result-card"><div class="result-label">Vienetuų kiekis</div><div class="result-val" id="r-units">4.0000</div></div>
     <div class="result-card"><div class="result-label">Risk / Reward</div><div class="result-val" id="r-rr">1 : 2.0</div></div>
     <div class="result-card"><div class="result-label">Maks. leidž. pozicija (2%)</div><div class="result-val good" id="r-maxpos">€400.00</div></div>
   </div>
-
   <div class="rr-bar" id="rr-bar"><div class="rr-loss" style="width:33%"></div><div class="rr-profit" style="width:67%"></div></div>
   <div class="rr-labels"><span>Nuostolis (SL)</span><span>Pelnas (TP)</span></div>
-
   <div class="verdict" id="verdict"></div>
 </div>
-
-<!-- RR SIM -->
 <div class="panel" id="panel-rr">
   <div class="section">
     <div class="section-title">simuliacija</div>
@@ -193,8 +146,6 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
   </div>
   <div class="verdict" id="verdict-rr"></div>
 </div>
-
-<!-- STREAK -->
 <div class="panel" id="panel-streak">
   <div class="section">
     <div class="section-title">kas nutinka po kelių nuostolių iš eilės</div>
@@ -206,174 +157,74 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
   <div id="streak-rows"></div>
   <div class="verdict" id="verdict-streak"></div>
 </div>
-
 <script>
-let inputMode = 'eur';
-let leverage = 1;
-
-function setLev(lev) {
-  leverage = lev;
-  [1,2,5,10].forEach(l => {
-    const btn = document.getElementById('lev-'+l);
-    btn.classList.remove('active','lev-warn','lev-danger');
-    if(l === lev) {
-      btn.classList.add('active');
-      if(lev === 5)  btn.classList.add('lev-warn');
-      if(lev === 10) btn.classList.add('lev-danger');
-    }
-  });
-  calcMain();
+let inputMode='eur',leverage=1;
+function setLev(lev){leverage=lev;[1,2,5,10].forEach(l=>{const b=document.getElementById('lev-'+l);b.classList.remove('active','lev-warn','lev-danger');if(l===lev){b.classList.add('active');if(lev===5)b.classList.add('lev-warn');if(lev===10)b.classList.add('lev-danger');}});calcMain();}
+function setMode(m){inputMode=m;document.getElementById('input-eur').style.display=m==='eur'?'':'none';document.getElementById('input-units').style.display=m==='units'?'':'none';document.getElementById('btn-eur').classList.toggle('active',m==='eur');document.getElementById('btn-units').classList.toggle('active',m==='units');calcMain();}
+function setTab(t){['main','rr','streak'].forEach(x=>{document.getElementById('panel-'+x).classList.toggle('active',x===t);});document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',['main','rr','streak'][i]===t);});if(t==='rr')calcRR();if(t==='streak')calcStreak();}
+function calcMain(){
+  const port=parseFloat(document.getElementById('portfolio').value)||1000;
+  const riskPctBase=parseFloat(document.getElementById('risk-pct').value)||2;
+  const entry=parseFloat(document.getElementById('entry').value)||100;
+  const sl=parseFloat(document.getElementById('sl').value)||95;
+  const tp=parseFloat(document.getElementById('tp').value)||110;
+  const riskPct=riskPctBase*leverage;
+  document.getElementById('risk-pct-out').textContent=riskPctBase.toFixed(1)+'%';
+  const li=document.getElementById('lev-info');
+  if(leverage===1){li.innerHTML='1x — be sverto. Rizika <span>'+riskPct.toFixed(1)+'%</span> portfelio.';}
+  else{li.innerHTML=leverage+'x svertas: bazinė rizika '+riskPctBase.toFixed(1)+'% × '+leverage+' = <span>'+riskPct.toFixed(1)+'%</span> faktinė rizika portfelio!';}
+  const slDist=Math.abs(entry-sl),tpDist=Math.abs(tp-entry);
+  if(slDist<=0)return;
+  const slPct=slDist/entry*100,maxLoss=port*riskPct/100,maxAllowed=maxLoss/slPct*100;
+  let posSize,units;
+  if(inputMode==='eur'){posSize=parseFloat(document.getElementById('invest-eur').value)||0;units=posSize/entry;}
+  else{units=parseFloat(document.getElementById('invest-units').value)||0;posSize=units*entry;}
+  const actualLoss=units*slDist*leverage,actualLossPct=(actualLoss/port)*100,rr=tpDist/slDist;
+  const cls=actualLossPct<=2?'good':actualLossPct<=3.5?'warn':'bad';
+  document.getElementById('big-risk').className='big-val '+cls;
+  document.getElementById('big-risk').textContent='€'+actualLoss.toFixed(2);
+  const levNote=leverage>1?' · '+leverage+'x svertas':'';
+  document.getElementById('big-sub').textContent=actualLossPct.toFixed(2)+'% portfelio · '+units.toFixed(4)+' vnt. · €'+posSize.toFixed(2)+' pozicija'+levNote;
+  const barW=Math.min(actualLossPct/5*100,100),barC=actualLossPct<=2?'#4caf7d':actualLossPct<=3.5?'#e0a030':'#e05555';
+  document.getElementById('rm-fill').style.width=barW.toFixed(1)+'%';
+  document.getElementById('rm-fill').style.background=barC;
+  document.getElementById('rm-pct-label').textContent=actualLossPct.toFixed(2)+'% portfelio';
+  document.getElementById('r-pos').textContent='€'+posSize.toFixed(2);
+  document.getElementById('r-units').textContent=units.toFixed(4);
+  document.getElementById('r-rr').textContent='1 : '+rr.toFixed(1);
+  document.getElementById('r-maxpos').textContent='€'+maxAllowed.toFixed(2);
+  const lp=Math.round(1/(1+rr)*100);
+  document.getElementById('rr-bar').innerHTML='<div class="rr-loss" style="width:'+lp+'%"></div><div class="rr-profit" style="width:'+(100-lp)+'%"></div>';
+  const v=document.getElementById('verdict'),lw=leverage>1?' ('+leverage+'x svertas!)':'';
+  if(actualLossPct<=2&&rr>=2){v.className='verdict ok';v.textContent='Puikus tradas! Rizika '+actualLossPct.toFixed(2)+'%'+lw+' ir R/R 1:'+rr.toFixed(1)+' — tęsk.';}
+  else if(actualLossPct<=2&&rr>=1.5){v.className='verdict warn';v.textContent='Rizika gerai ('+actualLossPct.toFixed(2)+'%'+lw+'), bet R/R 1:'+rr.toFixed(1)+' per silpnas. Pagerink TP arba SL.';}
+  else if(actualLossPct<=2&&rr<1.5){v.className='verdict bad';v.textContent='Rizika ok, bet R/R 1:'+rr.toFixed(1)+' per blogas. Šio trado geriau praleisti.';}
+  else if(actualLossPct>2&&actualLossPct<=3.5){v.className='verdict warn';v.textContent='Rizika per didelė – '+actualLossPct.toFixed(2)+'%'+lw+'. Sumažink poziciją iki €'+maxAllowed.toFixed(0)+'.' ;}
+  else{v.className='verdict bad';v.textContent='STOP! Rizika '+actualLossPct.toFixed(2)+'%'+lw+' – per daug. Maks. pozicija: €'+maxAllowed.toFixed(0)+'.' ;}
 }
-
-function setMode(m) {
-  inputMode = m;
-  document.getElementById('input-eur').style.display   = m==='eur'   ? '' : 'none';
-  document.getElementById('input-units').style.display = m==='units' ? '' : 'none';
-  document.getElementById('btn-eur').classList.toggle('active',   m==='eur');
-  document.getElementById('btn-units').classList.toggle('active', m==='units');
-  calcMain();
-}
-
-function setTab(t) {
-  ['main','rr','streak'].forEach(x => {
-    document.getElementById('panel-'+x).classList.toggle('active', x===t);
-  });
-  document.querySelectorAll('.tab').forEach((el,i) => {
-    el.classList.toggle('active', ['main','rr','streak'][i]===t);
-  });
-  if(t==='rr') calcRR();
-  if(t==='streak') calcStreak();
-}
-
-function calcMain() {
-  const port      = parseFloat(document.getElementById('portfolio').value) || 1000;
-  const riskPctBase = parseFloat(document.getElementById('risk-pct').value) || 2;
-  const entry     = parseFloat(document.getElementById('entry').value)     || 100;
-  const sl        = parseFloat(document.getElementById('sl').value)        || 95;
-  const tp        = parseFloat(document.getElementById('tp').value)        || 110;
-
-  // Rizika su svertu
-  const riskPct = riskPctBase * leverage;
-
-  document.getElementById('risk-pct-out').textContent = riskPctBase.toFixed(1)+'%';
-
-  // Leverage info juosta
-  const levInfo = document.getElementById('lev-info');
-  if(leverage === 1) {
-    levInfo.innerHTML = `1x — be sverto. Rizika <span>${riskPct.toFixed(1)}%</span> portfelio.`;
-  } else {
-    levInfo.innerHTML = `${leverage}x svertas: bazinė rizika ${riskPctBase.toFixed(1)}% × ${leverage} = <span>${riskPct.toFixed(1)}%</span> faktinė rizika portfelio!`;
-  }
-  document.getElementById('lev-risk-show').textContent = riskPct.toFixed(1)+'%';
-
-  const slDist = Math.abs(entry - sl);
-  const tpDist = Math.abs(tp - entry);
-  if(slDist <= 0) return;
-
-  const slPct      = slDist / entry * 100;
-  const maxLoss    = port * riskPct / 100;
-  const maxAllowed = maxLoss / slPct * 100;
-
-  let posSize, units;
-  if(inputMode === 'eur') {
-    posSize = parseFloat(document.getElementById('invest-eur').value) || 0;
-    units = posSize / entry;
-  } else {
-    units   = parseFloat(document.getElementById('invest-units').value) || 0;
-    posSize = units * entry;
-  }
-
-  const actualLoss    = units * slDist * leverage;
-  const actualLossPct = (actualLoss / port) * 100;
-  const rr = tpDist / slDist;
-
-  const cls = actualLossPct <= 2 ? 'good' : actualLossPct <= 3.5 ? 'warn' : 'bad';
-  document.getElementById('big-risk').className = 'big-val '+cls;
-  document.getElementById('big-risk').textContent = '€'+actualLoss.toFixed(2);
-
-  const levNote = leverage > 1 ? ` · ${leverage}x svertas` : '';
-  document.getElementById('big-sub').textContent = actualLossPct.toFixed(2)+'% portfelio · '+units.toFixed(4)+' vnt. · €'+posSize.toFixed(2)+' pozicija'+levNote;
-
-  const barW = Math.min(actualLossPct / 5 * 100, 100);
-  const barC = actualLossPct<=2 ? '#4caf7d' : actualLossPct<=3.5 ? '#e0a030' : '#e05555';
-  document.getElementById('rm-fill').style.width      = barW.toFixed(1)+'%';
-  document.getElementById('rm-fill').style.background = barC;
-  document.getElementById('rm-pct-label').textContent = actualLossPct.toFixed(2)+'% portfelio';
-
-  document.getElementById('r-pos').textContent    = '€'+posSize.toFixed(2);
-  document.getElementById('r-units').textContent  = units.toFixed(4);
-  document.getElementById('r-rr').textContent     = '1 : '+rr.toFixed(1);
-  document.getElementById('r-maxpos').textContent = '€'+maxAllowed.toFixed(2);
-
-  const lp = Math.round(1/(1+rr)*100);
-  document.getElementById('rr-bar').innerHTML =
-    `<div class="rr-loss" style="width:${lp}%"></div><div class="rr-profit" style="width:${100-lp}%"></div>`;
-
-  const v = document.getElementById('verdict');
-  const levWarn = leverage > 1 ? ` (${leverage}x svertas!)` : '';
-  if(actualLossPct <= 2 && rr >= 2) {
-    v.className='verdict ok'; v.textContent='Puikus tradas! Rizika '+actualLossPct.toFixed(2)+'%'+levWarn+' ir R/R 1:'+rr.toFixed(1)+' — tęsk.';
-  } else if(actualLossPct <= 2 && rr >= 1.5) {
-    v.className='verdict warn'; v.textContent='Rizika gerai ('+actualLossPct.toFixed(2)+'%'+levWarn+'), bet R/R 1:'+rr.toFixed(1)+' per silpnas. Pagerink TP arba SL.';
-  } else if(actualLossPct <= 2 && rr < 1.5) {
-    v.className='verdict bad'; v.textContent='Rizika ok, bet R/R 1:'+rr.toFixed(1)+' per blogas. Šio trado geriau praleisti.';
-  } else if(actualLossPct > 2 && actualLossPct <= 3.5) {
-    v.className='verdict warn'; v.textContent='Rizika per didelė – '+actualLossPct.toFixed(2)+'%'+levWarn+'. Sumažink poziciją iki €'+maxAllowed.toFixed(0)+'.';
-  } else {
-    v.className='verdict bad'; v.textContent='STOP! Rizika '+actualLossPct.toFixed(2)+'%'+levWarn+' – per daug. Maks. pozicija: €'+maxAllowed.toFixed(0)+'.';
-  }
-}
-
-function calcRR() {
-  const port   = parseFloat(document.getElementById('rr-port').value)||1000;
-  const risk   = parseFloat(document.getElementById('rr-risk').value)||2;
-  const wr     = parseFloat(document.getElementById('wr').value)||50;
-  const rr     = parseFloat(document.getElementById('rr-sim').value)||2;
-  const trades = parseInt(document.getElementById('trades').value)||20;
-  document.getElementById('rr-risk-out').textContent = risk.toFixed(1)+'%';
-  document.getElementById('wr-out').textContent      = wr+'%';
-  document.getElementById('rr-sim-out').textContent  = '1:'+rr.toFixed(1);
-  document.getElementById('trades-out').textContent  = trades;
-  const riskEur = port * risk / 100;
-  const wins = Math.round(trades * wr/100);
-  const losses = trades - wins;
-  const totalR = wins*rr - losses;
-  const totalEur = totalR * riskEur;
-  document.getElementById('wins').textContent = wins;
-  document.getElementById('losses').textContent = losses;
-  const rEl = document.getElementById('total-r');
-  rEl.textContent = (totalR>=0?'+':'')+totalR.toFixed(1)+'R';
-  rEl.className = 'result-val '+(totalR>=0?'good':'bad');
-  const eEl = document.getElementById('total-eur');
-  eEl.textContent = (totalEur>=0?'+':'')+'€'+Math.abs(Math.round(totalEur));
-  eEl.className = 'result-val '+(totalEur>=0?'good':'bad');
-  const vr = document.getElementById('verdict-rr');
+function calcRR(){
+  const port=parseFloat(document.getElementById('rr-port').value)||1000,risk=parseFloat(document.getElementById('rr-risk').value)||2,wr=parseFloat(document.getElementById('wr').value)||50,rr=parseFloat(document.getElementById('rr-sim').value)||2,trades=parseInt(document.getElementById('trades').value)||20;
+  document.getElementById('rr-risk-out').textContent=risk.toFixed(1)+'%';document.getElementById('wr-out').textContent=wr+'%';document.getElementById('rr-sim-out').textContent='1:'+rr.toFixed(1);document.getElementById('trades-out').textContent=trades;
+  const riskEur=port*risk/100,wins=Math.round(trades*wr/100),losses=trades-wins,totalR=wins*rr-losses,totalEur=totalR*riskEur;
+  document.getElementById('wins').textContent=wins;document.getElementById('losses').textContent=losses;
+  const rEl=document.getElementById('total-r');rEl.textContent=(totalR>=0?'+':'')+totalR.toFixed(1)+'R';rEl.className='result-val '+(totalR>=0?'good':'bad');
+  const eEl=document.getElementById('total-eur');eEl.textContent=(totalEur>=0?'+':'')+'€'+Math.abs(Math.round(totalEur));eEl.className='result-val '+(totalEur>=0?'good':'bad');
+  const vr=document.getElementById('verdict-rr');
   if(totalR>0){vr.className='verdict ok';vr.textContent='Pelninga! Su '+wr+'% win rate ir 1:'+rr.toFixed(1)+' R/R uždirbi €'+Math.abs(Math.round(totalEur))+' po '+trades+' tradų.';}
   else{vr.className='verdict bad';vr.textContent='Nepelninga. Padidink win rate arba R/R – rekomenduojama bent 1:2.';}
 }
-
-function calcStreak() {
-  const cap  = parseFloat(document.getElementById('streak-cap').value)||1000;
-  const risk = parseFloat(document.getElementById('streak-risk').value)||2;
-  const n    = parseInt(document.getElementById('streak-n').value)||5;
-  document.getElementById('streak-risk-out').textContent = risk.toFixed(1)+'%';
-  document.getElementById('streak-n-out').textContent = n;
-  let bal=cap; let html='';
-  for(let i=1;i<=n;i++){
-    bal -= bal*risk/100;
-    const pct=((cap-bal)/cap*100);
-    const c=pct<10?'#4caf7d':pct<20?'#e0a030':'#e05555';
-    html+=`<div class="streak-row"><span style="color:#666;">Nuostolis #${i}</span><span style="font-weight:500;">€${bal.toFixed(2)}</span><span style="color:${c};">-${pct.toFixed(1)}%</span></div>`;
-  }
+function calcStreak(){
+  const cap=parseFloat(document.getElementById('streak-cap').value)||1000,risk=parseFloat(document.getElementById('streak-risk').value)||2,n=parseInt(document.getElementById('streak-n').value)||5;
+  document.getElementById('streak-risk-out').textContent=risk.toFixed(1)+'%';document.getElementById('streak-n-out').textContent=n;
+  let bal=cap,html='';
+  for(let i=1;i<=n;i++){bal-=bal*risk/100;const pct=((cap-bal)/cap*100),c=pct<10?'#4caf7d':pct<20?'#e0a030':'#e05555';html+='<div class="streak-row"><span style="color:#666;">Nuostolis #'+i+'</span><span style="font-weight:500;">€'+bal.toFixed(2)+'</span><span style="color:'+c+';">-'+pct.toFixed(1)+'%</span></div>';}
   document.getElementById('streak-rows').innerHTML=html;
-  const lost=((cap-bal)/cap*100);
-  const vs=document.getElementById('verdict-streak');
+  const lost=((cap-bal)/cap*100),vs=document.getElementById('verdict-streak');
   if(lost<10){vs.className='verdict ok';vs.textContent=n+' nuostolių iš eilės = -'+lost.toFixed(1)+'%. Valdoma – laikykis plano.';}
   else if(lost<20){vs.className='verdict warn';vs.textContent=n+' nuostolių iš eilės = -'+lost.toFixed(1)+'%. Skausminga, bet atsistatoma.';}
   else{vs.className='verdict bad';vs.textContent=n+' nuostolių iš eilės = -'+lost.toFixed(1)+'%! Sumažink riziką iki 1-2% per tradą.';}
 }
-
-calcMain(); calcRR(); calcStreak();
+calcMain();calcRR();calcStreak();
 </script>
 </body>
 </html>
