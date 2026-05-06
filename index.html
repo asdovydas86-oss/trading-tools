@@ -57,6 +57,17 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 .verdict.bad  { background: #2a0d0d; color: #e05555; border: 1px solid #4a1a1a; }
 .streak-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1e1e1e; font-size: 13px; }
 .streak-row:last-child { border-bottom: none; }
+
+/* LEVERAGE */
+.leverage-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+.lev-btn { flex: 1; padding: 10px 6px; font-size: 14px; font-weight: 600; border-radius: 10px; border: 1px solid #2a2a2a; cursor: pointer; background: #1a1a1a; color: #666; transition: all 0.15s; text-align: center; }
+.lev-btn:hover { border-color: #444; color: #ccc; }
+.lev-btn.active { background: #1a2a3a; color: #60aaee; border-color: #2a4a6a; }
+.lev-btn.active.lev-warn { background: #2a1f0a; color: #e0a030; border-color: #4a3510; }
+.lev-btn.active.lev-danger { background: #2a0d0d; color: #e05555; border-color: #4a1a1a; }
+.lev-info { font-size: 12px; color: #555; margin-bottom: 16px; padding: 10px 14px; background: #111; border-radius: 8px; border: 1px solid #1e1e1e; }
+.lev-info span { color: #e0a030; font-weight: 600; }
+
 @media (max-width: 480px) { .input-label { width: 120px; font-size: 12px; } .big-val { font-size: 28px; } }
 </style>
 </head>
@@ -73,6 +84,20 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 
 <!-- MAIN -->
 <div class="panel active" id="panel-main">
+
+  <!-- LEVERAGE -->
+  <div class="section">
+    <div class="section-title">svertas (leverage)</div>
+    <div class="leverage-bar">
+      <button class="lev-btn active" id="lev-1" onclick="setLev(1)">1x<br><small style="font-size:10px;font-weight:400;">be sverto</small></button>
+      <button class="lev-btn" id="lev-2" onclick="setLev(2)">2x<br><small style="font-size:10px;font-weight:400;">dvigubas</small></button>
+      <button class="lev-btn" id="lev-5" onclick="setLev(5)">5x<br><small style="font-size:10px;font-weight:400;">didelis</small></button>
+      <button class="lev-btn" id="lev-10" onclick="setLev(10)">10x<br><small style="font-size:10px;font-weight:400;">labai didelis</small></button>
+    </div>
+    <div class="lev-info" id="lev-info">
+      1x — be sverto. Rizika <span id="lev-risk-show">2.0%</span> portfelio.
+    </div>
+  </div>
 
   <div class="section">
     <div class="section-title">mano portfelis</div>
@@ -184,6 +209,21 @@ hr { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
 
 <script>
 let inputMode = 'eur';
+let leverage = 1;
+
+function setLev(lev) {
+  leverage = lev;
+  [1,2,5,10].forEach(l => {
+    const btn = document.getElementById('lev-'+l);
+    btn.classList.remove('active','lev-warn','lev-danger');
+    if(l === lev) {
+      btn.classList.add('active');
+      if(lev === 5)  btn.classList.add('lev-warn');
+      if(lev === 10) btn.classList.add('lev-danger');
+    }
+  });
+  calcMain();
+}
 
 function setMode(m) {
   inputMode = m;
@@ -206,18 +246,31 @@ function setTab(t) {
 }
 
 function calcMain() {
-  const port    = parseFloat(document.getElementById('portfolio').value)    || 1000;
-  const riskPct = parseFloat(document.getElementById('risk-pct').value)     || 2;
-  const entry   = parseFloat(document.getElementById('entry').value)        || 100;
-  const sl      = parseFloat(document.getElementById('sl').value)           || 95;
-  const tp      = parseFloat(document.getElementById('tp').value)           || 110;
-  document.getElementById('risk-pct-out').textContent = riskPct.toFixed(1)+'%';
+  const port      = parseFloat(document.getElementById('portfolio').value) || 1000;
+  const riskPctBase = parseFloat(document.getElementById('risk-pct').value) || 2;
+  const entry     = parseFloat(document.getElementById('entry').value)     || 100;
+  const sl        = parseFloat(document.getElementById('sl').value)        || 95;
+  const tp        = parseFloat(document.getElementById('tp').value)        || 110;
+
+  // Rizika su svertu
+  const riskPct = riskPctBase * leverage;
+
+  document.getElementById('risk-pct-out').textContent = riskPctBase.toFixed(1)+'%';
+
+  // Leverage info juosta
+  const levInfo = document.getElementById('lev-info');
+  if(leverage === 1) {
+    levInfo.innerHTML = `1x — be sverto. Rizika <span>${riskPct.toFixed(1)}%</span> portfelio.`;
+  } else {
+    levInfo.innerHTML = `${leverage}x svertas: bazinė rizika ${riskPctBase.toFixed(1)}% × ${leverage} = <span>${riskPct.toFixed(1)}%</span> faktinė rizika portfelio!`;
+  }
+  document.getElementById('lev-risk-show').textContent = riskPct.toFixed(1)+'%';
 
   const slDist = Math.abs(entry - sl);
   const tpDist = Math.abs(tp - entry);
   if(slDist <= 0) return;
 
-  const slPct = slDist / entry * 100;
+  const slPct      = slDist / entry * 100;
   const maxLoss    = port * riskPct / 100;
   const maxAllowed = maxLoss / slPct * 100;
 
@@ -230,14 +283,16 @@ function calcMain() {
     posSize = units * entry;
   }
 
-  const actualLoss    = units * slDist;
+  const actualLoss    = units * slDist * leverage;
   const actualLossPct = (actualLoss / port) * 100;
   const rr = tpDist / slDist;
 
   const cls = actualLossPct <= 2 ? 'good' : actualLossPct <= 3.5 ? 'warn' : 'bad';
   document.getElementById('big-risk').className = 'big-val '+cls;
   document.getElementById('big-risk').textContent = '€'+actualLoss.toFixed(2);
-  document.getElementById('big-sub').textContent  = actualLossPct.toFixed(2)+'% portfelio · '+units.toFixed(4)+' vnt. · €'+posSize.toFixed(2)+' pozicija';
+
+  const levNote = leverage > 1 ? ` · ${leverage}x svertas` : '';
+  document.getElementById('big-sub').textContent = actualLossPct.toFixed(2)+'% portfelio · '+units.toFixed(4)+' vnt. · €'+posSize.toFixed(2)+' pozicija'+levNote;
 
   const barW = Math.min(actualLossPct / 5 * 100, 100);
   const barC = actualLossPct<=2 ? '#4caf7d' : actualLossPct<=3.5 ? '#e0a030' : '#e05555';
@@ -255,16 +310,17 @@ function calcMain() {
     `<div class="rr-loss" style="width:${lp}%"></div><div class="rr-profit" style="width:${100-lp}%"></div>`;
 
   const v = document.getElementById('verdict');
+  const levWarn = leverage > 1 ? ` (${leverage}x svertas!)` : '';
   if(actualLossPct <= 2 && rr >= 2) {
-    v.className='verdict ok'; v.textContent='Puikus tradas! Rizika '+actualLossPct.toFixed(2)+'% ir R/R 1:'+rr.toFixed(1)+' — tęsk.';
+    v.className='verdict ok'; v.textContent='Puikus tradas! Rizika '+actualLossPct.toFixed(2)+'%'+levWarn+' ir R/R 1:'+rr.toFixed(1)+' — tęsk.';
   } else if(actualLossPct <= 2 && rr >= 1.5) {
-    v.className='verdict warn'; v.textContent='Rizika gerai ('+actualLossPct.toFixed(2)+'%), bet R/R 1:'+rr.toFixed(1)+' per silpnas. Pagerink TP arba SL.';
+    v.className='verdict warn'; v.textContent='Rizika gerai ('+actualLossPct.toFixed(2)+'%'+levWarn+'), bet R/R 1:'+rr.toFixed(1)+' per silpnas. Pagerink TP arba SL.';
   } else if(actualLossPct <= 2 && rr < 1.5) {
     v.className='verdict bad'; v.textContent='Rizika ok, bet R/R 1:'+rr.toFixed(1)+' per blogas. Šio trado geriau praleisti.';
   } else if(actualLossPct > 2 && actualLossPct <= 3.5) {
-    v.className='verdict warn'; v.textContent='Rizika per didelė – '+actualLossPct.toFixed(2)+'%. Sumažink poziciją iki €'+maxAllowed.toFixed(0)+' (2% taisyklė).';
+    v.className='verdict warn'; v.textContent='Rizika per didelė – '+actualLossPct.toFixed(2)+'%'+levWarn+'. Sumažink poziciją iki €'+maxAllowed.toFixed(0)+'.';
   } else {
-    v.className='verdict bad'; v.textContent='STOP! Rizika '+actualLossPct.toFixed(2)+'% – per daug. Maks. pozicija pagal 2% taisyklę: €'+maxAllowed.toFixed(0)+'.';
+    v.className='verdict bad'; v.textContent='STOP! Rizika '+actualLossPct.toFixed(2)+'%'+levWarn+' – per daug. Maks. pozicija: €'+maxAllowed.toFixed(0)+'.';
   }
 }
 
